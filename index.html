@@ -121,6 +121,9 @@ footer a{margin-right:14px}
 <label for="newsDesc">Haber özeti</label><textarea class="search" id="newsDesc" placeholder="Kısa haber özeti" rows="3" required></textarea>
 <label for="newsContent">Haber metni</label><textarea class="search" id="newsContent" placeholder="Haberin tam metni" rows="7" required></textarea>
 <label for="newsImage">Görsel bağlantısı (URL, isteğe bağlı)</label><input class="search" id="newsImage" type="url" placeholder="https://...">
+ <label for="newsPhotos">Fotoğraf seç (En fazla 5 fotoğraf)</label>
+<input class="search" id="newsPhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+<p class="statusmsg">JPG, PNG veya WEBP. Her fotoğraf en fazla 5 MB olabilir.</p>
 <button class="more" id="publishButton" type="submit">Haberi yayımla</button>
 </form>
 <button class="smallbtn" id="logoutButton" type="button">Çıkış yap</button>
