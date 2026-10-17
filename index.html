@@ -103,6 +103,16 @@ footer a{margin-right:14px}
 <button class="more" id="loginButton" type="button">Yönetici girişi</button>
 <p id="authMessage" class="statusmsg" role="status"></p>
 </div>
+<div class="sidebox" id="passwordRecoveryBox" style="display:none">
+<p><strong>Yeni yönetici şifresi belirle</strong></p>
+<p>Şifre sıfırlama bağlantısı doğrulandı. Yeni şifreni iki kez yaz.</p>
+<form id="passwordRecoveryForm">
+<label for="newPassword">Yeni şifre</label><input class="search" id="newPassword" type="password" autocomplete="new-password" minlength="8" placeholder="En az 8 karakter" required>
+<label for="confirmNewPassword">Yeni şifreyi tekrar yaz</label><input class="search" id="confirmNewPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Şifreyi tekrar yaz" required>
+<button class="more" id="saveNewPasswordButton" type="submit">Yeni şifreyi kaydet</button>
+</form>
+<p id="passwordRecoveryMessage" class="statusmsg" role="status"></p>
+</div>
 <div class="sidebox" id="newsFormBox" style="display:none">
 <p>Giriş yapıldı. Yalnızca yetkili hesabın haber yayımlayabilir.</p>
 <form id="newsForm">
@@ -125,7 +135,7 @@ footer a{margin-right:14px}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL = "https://beaymvlceeqxcgyawikp.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY ="sb_publishable_fF1sqSZiPYNYJuNS_WKVmA_ApHXFrsD";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_fF1sqSZiPYNYJuNS_WKVmA_ApHXFrsD";
 const ADMIN_UID = "7535e892-fde7-49d5-8d98-cb1b0ba67b8c";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
@@ -171,14 +181,39 @@ async function loadPublishedNews(){
   renderNews();
  }catch(err){console.error("Haberler yüklenemedi:",err);document.getElementById("authMessage").textContent="Haber veritabanına bağlanılamadı. Publishable key ve RLS ayarlarını kontrol et."; }
 }
+function showPasswordRecovery(){
+ document.getElementById("authBox").style.display="none";
+ document.getElementById("newsFormBox").style.display="none";
+ document.getElementById("passwordRecoveryBox").style.display="block";
+ document.getElementById("passwordRecoveryBox").scrollIntoView({behavior:"smooth",block:"center"});
+}
 function updateAuthUI(user){
  const isAdmin=!!user && user.id===ADMIN_UID;
- document.getElementById("authBox").style.display=isAdmin?"none":"block";
- document.getElementById("newsFormBox").style.display=isAdmin?"block":"none";
+ const recoveryVisible=document.getElementById("passwordRecoveryBox").style.display==="block";
+ document.getElementById("authBox").style.display=(isAdmin||recoveryVisible)?"none":"block";
+ document.getElementById("newsFormBox").style.display=(isAdmin&&!recoveryVisible)?"block":"none";
  document.getElementById("admin").style.display="block";
- if(user && !isAdmin) document.getElementById("authMessage").textContent="Bu hesap haber yönetimi için yetkili değil.";
- else if(isAdmin) document.getElementById("authMessage").textContent="";
+ if(user && !isAdmin && !recoveryVisible) document.getElementById("authMessage").textContent="Bu hesap haber yönetimi için yetkili değil.";
+ else if(isAdmin && !recoveryVisible) document.getElementById("authMessage").textContent="";
 }
+document.getElementById("passwordRecoveryForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const password=document.getElementById("newPassword").value;
+ const confirm=document.getElementById("confirmNewPassword").value;
+ const msg=document.getElementById("passwordRecoveryMessage");
+ const button=document.getElementById("saveNewPasswordButton");
+ if(password.length<8){msg.textContent="Şifre en az 8 karakter olmalı.";return;}
+ if(password!==confirm){msg.textContent="Şifreler eşleşmiyor. İkisini de kontrol et.";return;}
+ button.disabled=true;button.textContent="Kaydediliyor…";msg.textContent="";
+ const {error}=await supabaseClient.auth.updateUser({password});
+ button.disabled=false;button.textContent="Yeni şifreyi kaydet";
+ if(error){msg.textContent="Şifre kaydedilemedi: "+error.message;return;}
+ document.getElementById("passwordRecoveryForm").reset();
+ msg.textContent="Yeni şifren kaydedildi. Şimdi yönetici girişi yapabilirsin.";
+ document.getElementById("passwordRecoveryBox").style.display="none";
+ document.getElementById("authBox").style.display="block";
+ await supabaseClient.auth.signOut();
+});
 document.getElementById("loginButton").addEventListener("click",async()=>{
  const email=document.getElementById("adminEmail").value.trim();
  const password=document.getElementById("adminPassword").value;
@@ -209,8 +244,14 @@ document.getElementById("newsForm").addEventListener("submit",async e=>{
  document.getElementById("adminMessage").textContent="Haber veritabanına kaydedildi ve yayımlandı.";
  document.getElementById("newsForm").reset();await loadPublishedNews();category="Tümü";all=true;renderNews();
 });
-supabaseClient.auth.getSession().then(({data})=>updateAuthUI(data.session?.user||null));
-supabaseClient.auth.onAuthStateChange((_event,session)=>updateAuthUI(session?.user||null));
+supabaseClient.auth.getSession().then(({data})=>{
+ updateAuthUI(data.session?.user||null);
+ if(data.session && (window.location.hash.includes("type=recovery") || new URLSearchParams(window.location.search).get("type")==="recovery")) showPasswordRecovery();
+});
+supabaseClient.auth.onAuthStateChange((event,session)=>{
+ if(event==="PASSWORD_RECOVERY") showPasswordRecovery();
+ else updateAuthUI(session?.user||null);
+});
 renderNews();
 loadPublishedNews();
 </script>
