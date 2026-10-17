@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Malatya Gündem - Yerel Haber Portalı</title>
+<style>
+body {
+  font-family: system-ui, sans-serif;
+  margin: 2rem;
+  line-height: 1.5;
+}
+
+h1 {
+  color: #219653;
+}
+
+button {
+  padding: 8px 16px;
+  border: 1px solid #219653;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Malatya Gündem - Yerel Haber Portalı</title>
+<meta name="description" content="Malatya'dan yerel haberler, şehir gündemi, ekonomi, siyaset, spor ve yaşam.">
+<style>
+*{box-sizing:border-box}
+:root{--red:#b51220;--dark:#20242b;--bg:#f3f4f6}
+body{margin:0;background:var(--bg);color:#24272d;font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+.topline{background:#191c22;color:#eee;padding:8px 4%;font-size:12px;display:flex;justify-content:space-between;gap:8px}
+header{background:white;border-bottom:4px solid var(--red)}
+.head{max-width:1150px;margin:auto;padding:20px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-size:27px;font-weight:900;letter-spacing:-1.3px;color:var(--dark)}
+.logo span{color:var(--red)}
+.slogan{font-size:11px;color:#777;margin-top:5px}
+.headnote{font-size:12px;color:#777;text-align:right}
+nav{background:var(--dark);color:white;overflow-x:auto;white-space:nowrap}
+.navinner{max-width:1150px;margin:auto;display:flex;padding:0 8px}
+nav a{display:block;padding:15px 13px;font-size:13px;font-weight:bold}
+nav a:hover,nav a.active{background:var(--red)}
+.breaking{background:white;border-bottom:1px solid #ddd;display:flex;align-items:center;gap:12px;padding:12px 4%;font-size:13px}
+.breaklabel{background:var(--red);color:white;font-weight:bold;padding:8px 10px;white-space:nowrap}
+.container{max-width:1150px;margin:22px auto;padding:0 14px}
+.sectiontitle{font-size:19px;border-left:4px solid var(--red);padding-left:10px;margin:0 0 15px}
+.hero{display:grid;grid-template-columns:1fr;background:white;border-radius:8px;overflow:hidden;box-shadow:0 2px 9px #0000000a}
+.heroimg{width:100%;height:230px;object-fit:cover;display:block}
+.herotext{padding:20px}
+.tag{font-size:11px;font-weight:bold;color:var(--red);text-transform:uppercase}
+.hero h1{font-size:27px;line-height:1.2;margin:10px 0}
+.herotext p,.desc{font-size:13px;line-height:1.7;color:#62666c}
+.meta{font-size:11px;color:#888;margin-top:12px}
+.layout{display:grid;grid-template-columns:1fr;gap:24px;margin-top:28px}
+.search{width:100%;padding:13px;border:1px solid #ddd;border-radius:5px;font-size:14px;margin-bottom:18px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:white;border-radius:7px;overflow:hidden;cursor:pointer;box-shadow:0 2px 7px #00000008}
+.card img{display:block;width:100%;height:125px;object-fit:cover;background:#ddd}
+.cardbody{padding:12px}
+.card h3{font-size:14px;line-height:1.45;margin:7px 0}
+.card .desc{font-size:12px;margin-bottom:0}
+button{font-family:inherit;cursor:pointer}
+.more{display:block;width:100%;padding:14px;border:0;border-radius:5px;background:var(--red);color:white;font-weight:bold;margin-top:18px}
+.sidebox{background:white;padding:17px;border-radius:7px;margin-bottom:16px}
+.sidebox h3{font-size:16px;margin:0 0 12px;padding-bottom:10px;border-bottom:2px solid var(--red)}
+.popular{padding:12px 0;border-bottom:1px solid #eee;font-size:13px;font-weight:bold;line-height:1.5;cursor:pointer}
+.popular:last-child{border:0}
+#detail{display:none;background:white;padding:18px;border-radius:8px;margin-top:20px}
+#detail img{width:100%;max-height:350px;object-fit:cover}
+#detail h2{line-height:1.3}
+.back{background:var(--dark);color:white;padding:10px 14px;border:0;border-radius:4px;margin-bottom:15px}
+footer{background:var(--dark);color:#ddd;margin-top:40px;padding:30px 5%;font-size:12px;line-height:1.8}
+.footerinner{max-width:1100px;margin:auto}
+.footerlogo{font-size:22px;font-weight:bold}
+.footerlogo span{color:#ff5965}
+footer a{margin-right:14px}
+.disclaimer{color:#aaa;font-size:11px;margin-top:20px}
+@media(min-width:760px){
+ .logo{font-size:34px}
+ .hero{grid-template-columns:1.15fr 1fr}
+ .heroimg{height:100%;min-height:310px}
+ .hero h1{font-size:33px}
+ .layout{grid-template-columns:minmax(0,2fr) minmax(220px,1fr)}
+ .cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+ .card img{height:155px}
+ .container{padding:0 20px}
+}
+</style>
+</head>
+<body>
+<div class="topline">
+ <span>Malatya'nın yerel haber portalı</span>
+ <span>Gündem · Şehir · Yaşam</span>
+</div>
+
+<header>
+ <div class="head">
+  <div>
+   <div class="logo">MALATYA <span>GÜNDEM</span></div>
+   <div class="slogan">ŞEHRİN SESİ, GÜNDEMİN MERKEZİ</div>
+  </div>
+  <div class="headnote">YEREL HABER<br>Malatya</div>
+ </div>
+</header>
+
+<nav>
+ <div class="navinner" id="nav">
+  <a href="#" class="active" onclick="filterNews('Tümü',this)">Ana Sayfa</a>
+  <a href="#" onclick="filterNews('Malatya',this)">Malatya</a>
+  <a href="#" onclick="filterNews('Siyaset',this)">Siyaset</a>
+  <a href="#" onclick="filterNews('Asayiş',this)">Asayiş</a>
+  <a href="#" onclick="filterNews('Ekonomi',this)">Ekonomi</a>
+  <a href="#" onclick="filterNews('Spor',this)">Spor</a>
+  <a href="#" onclick="filterNews('Yaşam',this)">Yaşam</a>
+ </div>
+</nav>
+
+<div class="breaking">
+ <span class="breaklabel">GÜNDEM</span>
+ <span>Malatya'dan gelişmeler ve şehir yaşamı</span>
+</div>
+
+<main class="container">
+ <section class="hero">
+  <img class="heroimg" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=80" alt="Şehir manzarası">
+  <div class="herotext">
+   <span class="tag">GÜNÜN MANŞETİ</span>
+   <h1>Malatya Gündem'e Hoş Geldiniz</h1>
+   <p>Malatya'daki gelişmeleri, yerel yönetimleri, ekonomiyi, sporu ve şehir yaşamını takip edebileceğin yeni nesil yerel haber portalı.</p>
+   <div class="meta">MALATYA GÜNDEM · TANITIM</div>
+  </div>
+ </section>
+
+ <div id="detail">
+  <button class="back" onclick="closeDetail()">← Haber listesine dön</button>
+  <div id="detailbody"></div>
+ </div>
+
+ <div class="layout">
+  <section>
+   <h2 class="sectiontitle" id="listtitle">Son Haberler</h2>
+   <input class="search" id="search" placeholder="Haber başlığında ara..." oninput="renderNews()">
+   <div class="cards" id="cards"></div>
+   <button class="more" onclick="showAll()">Daha Fazla Haber Göster</button>
+  </section>
+
+  <aside>
+   <div class="sidebox">
+    <h3>Öne Çıkanlar</h3>
+    <div id="popular"></div>
+   </div>
+   <div class="sidebox">
+    <h3>Reklam Alanı</h3>
+    <div style="background:#f3f4f6;text-align:center;padding:30px 8px;color:#777;font-size:12px">
+     REKLAMINIZI BURADA YAYIMLAYIN
+    </div>
+   </div>
+   <div class="sidebox">
+    <h3>Kategoriler</h3>
+    <div class="popular" onclick="filterNews('Malatya')">Malatya Haberleri</div>
+    <div class="popular" onclick="filterNews('Siyaset')">Siyaset</div>
+    <div class="popular" onclick="filterNews('Ekonomi')">Ekonomi</div>
+    <div class="popular" onclick="filterNews('Spor')">Spor</div>
+   </div>
+  </aside>
+ </div>
+</main>
+
+<section class="container" id="admin">
+  <h2 class="sectiontitle">Haber Yönetim Paneli</h2>
+  <div class="sidebox">
+    <p>Yeni haber bilgilerini aşağıya gir.</p>
+
+    <form id="newsForm">
+      <label>Haber başlığı</label>
+      <input class="search" id="newsTitle"
+        placeholder="Haber başlığını yaz" required>
+
+      <label>Kategori</label>
+      <select class="search" id="newsCategory">
+        <option>Malatya</option>
+        <option>Siyaset</option>
+        <option>Asayiş</option>
+        <option>Ekonomi</option>
+        <option>Spor</option>
+        <option>Yaşam</option>
+      </select>
+
+      <label>Haber açıklaması</label>
+      <textarea class="search" id="newsDesc"
+        placeholder="Haber açıklamasını yaz"
+        rows="4" required></textarea>
+
+      <label>Görsel bağlantısı (URL)</label>
+      <input class="search" id="newsImage"
+        type="url" placeholder="https://...">
+
+      <button class="more" type="submit">
+        Haberi yayımla
+      </button>
+    </form>
+
+    <p id="adminMessage" role="status"></p>
+  </div>
+</section>
+
+<footer>
+ <div class="footerinner">
+  <div class="footerlogo">MALATYA <span>GÜNDEM</span></div>
+  <p>Malatya'dan haberler, şehir yaşamı ve yerel gündem.</p>
+  <p><a href="#about">Hakkımızda</a><a href="#contact">İletişim</a><a href="#ads">Reklam</a><a href="#privacy">Gizlilik</a></p>
+  <div class="disclaimer">Geliştirme sürümü: Bu sayfadaki haber başlıkları ve açıklamaları örnek amaçlıdır. Gerçek haber veya doğrulanmış güncel bilgi olarak değerlendirilmemelidir. Fotoğraflar harici görsel servisinden yüklenmektedir.</div>
+  <p>© 2026 Malatya Gündem</p>
+ </div>
+</footer>
+
+<script>
+const articles=[
+ {cat:"Malatya",title:"Malatya'da şehir yaşamı",desc:"Şehirdeki gelişmeler ve günlük yaşamdan haberler için bu alanı kullanacağız.",img:"https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=700&q=80"},
+ {cat:"Ekonomi",title:"Yerel ekonomi ve esnaf",desc:"Malatya esnafını ve şehir ekonomisini ilgilendiren gelişmeler.",img:"https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=700&q=80"},
+ {cat:"Siyaset",title:"Yerel yönetim gündemi",desc:"Yerel yönetimler ve kent gündemine ilişkin haberler.",img:"https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=700&q=80"},
+ {cat:"Asayiş",title:"Asayiş haberleri",desc:"Doğrulanmış resmî açıklamalarla hazırlanacak asayiş haberleri.",img:"https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=700&q=80"},
+ {cat:"Spor",title:"Malatya'da spor gündemi",desc:"Yerel takımlar ve spor dünyasından gelişmeler.",img:"https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=700&q=80"},
+ {cat:"Yaşam",title:"Kültür, sanat ve yaşam",desc:"Malatya'daki kültür, sanat, eğitim ve sosyal etkinlikler.",img:"https://images.unsplash.com/photo-1517457373958-b7rad5b0f4c?auto=format&fit=crop&w=700&q=80"}
+];
+let category="Tümü",all=false;
+function renderNews(){
+ const q=document.getElementById("search").value.toLocaleLowerCase("tr");
+ const list=articles.filter(a=>(category==="Tümü"||a.cat===category)&&
+ (a.title+" "+a.desc).toLocaleLowerCase("tr").includes(q));
+ document.getElementById("listtitle").textContent=category==="Tümü"?"Son Haberler":category+" Haberleri";
+ const shown=all?list:list.slice(0,4);
+ document.getElementById("cards").innerHTML=shown.map((a,i)=>`
+ <article class="card" onclick="openDetail(${articles.indexOf(a)})">
+ <img src="${a.img}" alt="${a.cat}" loading="lazy">
+ <div class="cardbody"><span class="tag">${a.cat}</span>
+ <h3>${a.title}</h3><p class="desc">${a.desc}</p>
+ <div class="meta">Örnek içerik · Geliştirme demosu</div></div></article>`).join("");
+ if(!shown.length)document.getElementById("cards").innerHTML="<p>Bu aramayla eşleşen haber bulunamadı.</p>";
+ document.getElementById("popular").innerHTML=articles.slice(0,4).map(a=>
+ `<div class="popular" onclick="openDetail(${articles.indexOf(a)})">${a.title}</div>`).join("");
+}
+function filterNews(cat,el){
+ if(window.event)window.event.preventDefault();
+ category=cat;all=false;
+ document.querySelectorAll("#nav a").forEach(a=>a.classList.remove("active"));
+ if(el)el.classList.add("active");
+ document.getElementById("detail").style.display="none";
+ renderNews();
+}
+function showAll(){all=true;renderNews()}
+function openDetail(i){
+ const a=articles[i];if(!a)return;
+ document.getElementById("detailbody").innerHTML=
+ `<img src="${a.img}" alt="${a.cat}"><span class="tag">${a.cat}</span>
+ <h2>${a.title}</h2><p>${a.desc}</p>
+ <p>Bu bölüm, haber metninin, yayın tarihinin ve kaynak bilgilerinin yer alacağı detay sayfası örneğidir.</p>
+ <p><strong>Not:</strong> Bu içerik bir tasarım örneğidir; gerçek haber değildir.</p>`;
+ document.getElementById("detail").style.display="block";
+ document.getElementById("detail").scrollIntoView({behavior:"smooth"});
+}
+function closeDetail(){document.getElementById("detail").style.display="none"}
+
+document.getElementById("newsForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const title = document.getElementById("newsTitle").value.trim();
+  const cat = document.getElementById("newsCategory").value;
+  const desc = document.getElementById("newsDesc").value.trim();
+  const imageUrl = document.getElementById("newsImage").value.trim();
+
+  if (!title || !desc) return;
+
+  const safeImage = /^https?:\/\//i.test(imageUrl)
+    ? imageUrl
+    : "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=700&q=80";
+
+  articles.unshift({
+    cat: cat,
+    title: title,
+    desc: desc,
+    img: safeImage
+  });
+
+  category = "Tümü";
+  all = true;
+  document.getElementById("search").value = "";
+  document.getElementById("detail").style.display = "none";
+
+  renderNews();
+
+  document.getElementById("adminMessage").textContent =
+    "Haber bu oturumda listeye eklendi. Kalıcı olarak kaydedilmedi.";
+
+  this.reset();
+});
+renderNews();
+</script>
+</body>
+</html>
+
+<script>
+var n = 0;
+document.getElementById("go").addEventListener("click", function () {
+  n = n + 1;
+  document.getElementById("count").textContent = n;
+});
+
+</script>
+</body>
+</html>
