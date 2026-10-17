@@ -1,39 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GÜVEN HABER - Malatya’dan Türkiye’ye</title>
-<style>
-body {
-  font-family: system-ui, sans-serif;
-  margin: 2rem;
-  line-height: 1.5;
-}
-
-h1 {
-  color: #219653;
-}
-
-button {
-  padding: 8px 16px;
-  border: 1px solid #219653;
-  background: #fff;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-</style>
-</head>
-<body>
-
-<!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GÜVEN HABER - Malatya’dan Türkiye’ye</title>
-<meta name="description" content="Malatya'dan yerel haberler, şehir gündemi, ekonomi, siyaset, spor ve yaşam.">
+<meta name="description" content="Malatya'dan Türkiye'ye güncel haberler, şehir gündemi, ekonomi, siyaset, spor ve yaşam.">
 <style>
 *{box-sizing:border-box}
 :root{--red:#b51220;--dark:#20242b;--bg:#f3f4f6}
@@ -62,7 +33,7 @@ nav a:hover,nav a.active{background:var(--red)}
 .herotext p,.desc{font-size:13px;line-height:1.7;color:#62666c}
 .meta{font-size:11px;color:#888;margin-top:12px}
 .layout{display:grid;grid-template-columns:1fr;gap:24px;margin-top:28px}
-.search{width:100%;padding:13px;border:1px solid #ddd;border-radius:5px;font-size:14px;margin-bottom:18px}
+.search{width:100%;padding:13px;border:1px solid #ddd;border-radius:5px;font-size:14px;margin-bottom:12px;background:white}
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .card{background:white;border-radius:7px;overflow:hidden;cursor:pointer;box-shadow:0 2px 7px #00000008}
 .card img{display:block;width:100%;height:125px;object-fit:cover;background:#ddd}
@@ -85,6 +56,10 @@ footer{background:var(--dark);color:#ddd;margin-top:40px;padding:30px 5%;font-si
 .footerlogo span{color:#ff5965}
 footer a{margin-right:14px}
 .disclaimer{color:#aaa;font-size:11px;margin-top:20px}
+#admin{display:none}
+.smallbtn{padding:10px 14px;border:1px solid #ddd;border-radius:5px;background:white}
+#authBox,#newsFormBox{max-width:650px}
+.statusmsg{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
 @media(min-width:760px){
  .logo{font-size:34px}
  .hero{grid-template-columns:1.15fr 1fr}
@@ -98,224 +73,146 @@ footer a{margin-right:14px}
 </style>
 </head>
 <body>
-<div class="topline">
- <span>Türkiye’den ve Malatya’dan güncel haberler</span>
- <span>Gündem · Şehir · Yaşam</span>
-</div>
-
-<header>
- <div class="head">
-  <div>
-   <div class="logo">GÜVEN <span>HABER</span></div>
-   <div class="slogan">MALATYA'DAN TÜRKİYE'YE</div>
-  </div>
-  <div class="headnote">DİJİTAL HABER<br>Türkiye</div>
- </div>
-</header>
-
-<nav>
- <div class="navinner" id="nav">
-  <a href="#" class="active" onclick="filterNews('Tümü',this)">Ana Sayfa</a>
-  <a href="#" onclick="filterNews('Malatya',this)">Malatya</a>
-  <a href="#" onclick="filterNews('Siyaset',this)">Siyaset</a>
-  <a href="#" onclick="filterNews('Asayiş',this)">Asayiş</a>
-  <a href="#" onclick="filterNews('Ekonomi',this)">Ekonomi</a>
-  <a href="#" onclick="filterNews('Spor',this)">Spor</a>
-  <a href="#" onclick="filterNews('Yaşam',this)">Yaşam</a>
- </div>
-</nav>
-
-<div class="breaking">
- <span class="breaklabel">GÜNDEM</span>
- <span>Malatya’dan Türkiye’ye güncel gelişmeler</span>
-</div>
-
+<div class="topline"><span>Türkiye’den ve Malatya’dan güncel haberler</span><span>Gündem · Şehir · Yaşam</span></div>
+<header><div class="head"><div><div class="logo">GÜVEN <span>HABER</span></div><div class="slogan">MALATYA'DAN TÜRKİYE'YE</div></div><div class="headnote">DİJİTAL HABER<br>Türkiye</div></div></header>
+<nav><div class="navinner" id="nav">
+<a href="#" class="active" onclick="filterNews('Tümü',this);return false">Ana Sayfa</a>
+<a href="#" onclick="filterNews('Malatya',this);return false">Malatya</a>
+<a href="#" onclick="filterNews('Siyaset',this);return false">Siyaset</a>
+<a href="#" onclick="filterNews('Asayiş',this);return false">Asayiş</a>
+<a href="#" onclick="filterNews('Ekonomi',this);return false">Ekonomi</a>
+<a href="#" onclick="filterNews('Spor',this);return false">Spor</a>
+<a href="#" onclick="filterNews('Yaşam',this);return false">Yaşam</a>
+</div></nav>
+<div class="breaking"><span class="breaklabel">GÜNDEM</span><span>Malatya’dan Türkiye’ye güncel gelişmeler</span></div>
 <main class="container">
- <section class="hero">
-  <img class="heroimg" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=80" alt="Şehir manzarası">
-  <div class="herotext">
-   <span class="tag">GÜNÜN MANŞETİ</span>
-   <h1>Güven Haber'e Hoş Geldiniz</h1>
-   Malatya'dan Türkiye'ye güncel haberler, son dakika gelişmeleri, siyaset, ekonomi, spor ve şehir yaşamı.
-<div class="meta">GÜVEN HABER · TANITIM</div>
-  </div>
- </section>
-
- <div id="detail">
-  <button class="back" onclick="closeDetail()">← Haber listesine dön</button>
-  <div id="detailbody"></div>
- </div>
-
- <div class="layout">
-  <section>
-   <h2 class="sectiontitle" id="listtitle">Son Haberler</h2>
-   <input class="search" id="search" placeholder="Haber başlığında ara..." oninput="renderNews()">
-   <div class="cards" id="cards"></div>
-   <button class="more" onclick="showAll()">Daha Fazla Haber Göster</button>
-  </section>
-
-  <aside>
-   <div class="sidebox">
-    <h3>Öne Çıkanlar</h3>
-    <div id="popular"></div>
-   </div>
-   <div class="sidebox">
-    <h3>Reklam Alanı</h3>
-    <div style="background:#f3f4f6;text-align:center;padding:30px 8px;color:#777;font-size:12px">
-     REKLAMINIZI BURADA YAYIMLAYIN
-    </div>
-   </div>
-   <div class="sidebox">
-    <h3>Kategoriler</h3>
-    <div class="popular" onclick="filterNews('Malatya')">Malatya Haberleri</div>
-    <div class="popular" onclick="filterNews('Siyaset')">Siyaset</div>
-    <div class="popular" onclick="filterNews('Ekonomi')">Ekonomi</div>
-    <div class="popular" onclick="filterNews('Spor')">Spor</div>
-   </div>
-  </aside>
- </div>
+<section class="hero"><img class="heroimg" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=80" alt="Şehir manzarası">
+<div class="herotext"><span class="tag">GÜNÜN MANŞETİ</span><h1>Güven Haber'e Hoş Geldiniz</h1><p>Malatya'dan Türkiye'ye güncel haberler, son dakika gelişmeleri, siyaset, ekonomi, spor ve şehir yaşamı.</p><div class="meta">GÜVEN HABER · TANITIM</div></div></section>
+<div id="detail"><button class="back" onclick="closeDetail()">← Haber listesine dön</button><div id="detailbody"></div></div>
+<div class="layout"><section><h2 class="sectiontitle" id="listtitle">Son Haberler</h2><input class="search" id="search" placeholder="Haber başlığında ara..." oninput="renderNews()"><div class="cards" id="cards"></div><button class="more" onclick="showAll()">Daha Fazla Haber Göster</button></section>
+<aside><div class="sidebox"><h3>Öne Çıkanlar</h3><div id="popular"></div></div>
+<div class="sidebox"><h3>Reklam Alanı</h3><div style="background:#f3f4f6;text-align:center;padding:30px 8px;color:#777;font-size:12px">REKLAMINIZI BURADA YAYIMLAYIN</div></div>
+<div class="sidebox"><h3>Kategoriler</h3><div class="popular" onclick="filterNews('Malatya')">Malatya Haberleri</div><div class="popular" onclick="filterNews('Siyaset')">Siyaset</div><div class="popular" onclick="filterNews('Ekonomi')">Ekonomi</div><div class="popular" onclick="filterNews('Spor')">Spor</div></div></aside></div>
 </main>
-
 <section class="container" id="admin">
-  <h2 class="sectiontitle">Haber Yönetim Paneli</h2>
-  <div class="sidebox">
-    <p>Yeni haber bilgilerini aşağıya gir.</p>
-
-    <form id="newsForm">
-      <label>Haber başlığı</label>
-      <input class="search" id="newsTitle"
-        placeholder="Haber başlığını yaz" required>
-
-      <label>Kategori</label>
-      <select class="search" id="newsCategory">
-        <option>Malatya</option>
-        <option>Siyaset</option>
-        <option>Asayiş</option>
-        <option>Ekonomi</option>
-        <option>Spor</option>
-        <option>Yaşam</option>
-      </select>
-
-      <label>Haber açıklaması</label>
-      <textarea class="search" id="newsDesc"
-        placeholder="Haber açıklamasını yaz"
-        rows="4" required></textarea>
-
-      <label>Görsel bağlantısı (URL)</label>
-      <input class="search" id="newsImage"
-        type="url" placeholder="https://...">
-
-      <button class="more" type="submit">
-        Haberi yayımla
-      </button>
-    </form>
-
-    <p id="adminMessage" role="status"></p>
-  </div>
+<h2 class="sectiontitle">Haber Yönetim Paneli</h2>
+<div class="sidebox" id="authBox">
+<p>Yönetici hesabınla giriş yap.</p>
+<label for="adminEmail">E-posta</label><input class="search" id="adminEmail" type="email" autocomplete="username" placeholder="Yönetici e-posta adresi">
+<label for="adminPassword">Şifre</label><input class="search" id="adminPassword" type="password" autocomplete="current-password" placeholder="Şifren" >
+<button class="more" id="loginButton" type="button">Yönetici girişi</button>
+<p id="authMessage" class="statusmsg" role="status"></p>
+</div>
+<div class="sidebox" id="newsFormBox" style="display:none">
+<p>Giriş yapıldı. Yalnızca yetkili hesabın haber yayımlayabilir.</p>
+<form id="newsForm">
+<label for="newsTitle">Haber başlığı</label><input class="search" id="newsTitle" placeholder="Haber başlığını yaz" required>
+<label for="newsCategory">Kategori</label><select class="search" id="newsCategory"><option>Malatya</option><option>Siyaset</option><option>Asayiş</option><option>Ekonomi</option><option>Spor</option><option>Yaşam</option></select>
+<label for="newsDesc">Haber özeti</label><textarea class="search" id="newsDesc" placeholder="Kısa haber özeti" rows="3" required></textarea>
+<label for="newsContent">Haber metni</label><textarea class="search" id="newsContent" placeholder="Haberin tam metni" rows="7" required></textarea>
+<label for="newsImage">Görsel bağlantısı (URL, isteğe bağlı)</label><input class="search" id="newsImage" type="url" placeholder="https://...">
+<button class="more" id="publishButton" type="submit">Haberi yayımla</button>
+</form>
+<button class="smallbtn" id="logoutButton" type="button">Çıkış yap</button>
+<p id="adminMessage" class="statusmsg" role="status"></p>
+</div>
 </section>
+<footer><div class="footerinner"><div class="footerlogo">GÜVEN <span>HABER</span></div>Malatya'dan Türkiye'ye doğru, hızlı ve güncel haberler.
+<p><a href="#about">Hakkımızda</a><a href="#contact">İletişim</a><a href="#ads">Reklam</a><a href="#privacy">Gizlilik</a></p>
+<div class="disclaimer">Geliştirme sürümü: Haberler yayınlanmadan önce editoryal olarak doğrulanmalıdır. Fotoğraflar harici görsel servisinden yüklenebilir.</div><p>© 2026 Güven Haber</p></div></footer>
 
-<footer>
- <div class="footerinner">
-<div class="footerlogo">GÜVEN <span>HABER</span></div>
-  Malatya'dan Türkiye'ye doğru, hızlı ve güncel haberler.
-  <p><a href="#about">Hakkımızda</a><a href="#contact">İletişim</a><a href="#ads">Reklam</a><a href="#privacy">Gizlilik</a></p>
-  <div class="disclaimer">Geliştirme sürümü: Bu sayfadaki haber başlıkları ve açıklamaları örnek amaçlıdır. Gerçek haber veya doğrulanmış güncel bilgi olarak değerlendirilmemelidir. Fotoğraflar harici görsel servisinden yüklenmektedir.</div>
-  <p>© 2026 Güven Haber </p>
- </div>
-</footer>
-
+<!-- Supabase browser client: use only the project's publishable key here. Never put a secret/service_role key in this file. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const articles=[
- {cat:"Malatya",title:"Malatya'da şehir yaşamı",desc:"Şehirdeki gelişmeler ve günlük yaşamdan haberler için bu alanı kullanacağız.",img:"https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=700&q=80"},
- {cat:"Ekonomi",title:"Yerel ekonomi ve esnaf",desc:"Malatya esnafını ve şehir ekonomisini ilgilendiren gelişmeler.",img:"https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=700&q=80"},
- {cat:"Siyaset",title:"Yerel yönetim gündemi",desc:"Yerel yönetimler ve kent gündemine ilişkin haberler.",img:"https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=700&q=80"},
- {cat:"Asayiş",title:"Asayiş haberleri",desc:"Doğrulanmış resmî açıklamalarla hazırlanacak asayiş haberleri.",img:"https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=700&q=80"},
- {cat:"Spor",title:"Malatya'da spor gündemi",desc:"Yerel takımlar ve spor dünyasından gelişmeler.",img:"https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=700&q=80"},
- {cat:"Yaşam",title:"Kültür, sanat ve yaşam",desc:"Malatya'daki kültür, sanat, eğitim ve sosyal etkinlikler.",img:"https://images.unsplash.com/photo-1517457373958-b7rad5b0f4c?auto=format&fit=crop&w=700&q=80"}
+const SUPABASE_URL = "https://beaymvlceeqxcgyawikp.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY ="sb_publishable_fF1sqSZiPYNYJuNS_WKVmA_ApHXFrsD";
+const ADMIN_UID = "7535e892-fde7-49d5-8d98-cb1b0ba67b8c";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+const demoArticles = [
+ {cat:"Malatya",title:"Malatya'da şehir yaşamı",desc:"Şehirdeki gelişmeler ve günlük yaşamdan haberler için bu alanı kullanacağız.",content:"Bu içerik tasarım amacıyla yerleştirilmiş bir örnektir; güncel haber değildir.",img:"https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=700&q=80",demo:true},
+ {cat:"Ekonomi",title:"Yerel ekonomi ve esnaf",desc:"Malatya esnafını ve şehir ekonomisini ilgilendiren gelişmeler.",content:"Bu içerik tasarım amacıyla yerleştirilmiş bir örnektir; güncel haber değildir.",img:"https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=700&q=80",demo:true},
+ {cat:"Siyaset",title:"Yerel yönetim gündemi",desc:"Yerel yönetimler ve kent gündemine ilişkin haberler.",content:"Bu içerik tasarım amacıyla yerleştirilmiş bir örnektir; güncel haber değildir.",img:"https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=700&q=80",demo:true},
+ {cat:"Asayiş",title:"Asayiş haberleri",desc:"Doğrulanmış resmî açıklamalarla hazırlanacak asayiş haberleri.",content:"Bu içerik tasarım amacıyla yerleştirilmiş bir örnektir; güncel haber değildir.",img:"https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=700&q=80",demo:true},
+ {cat:"Spor",title:"Malatya'da spor gündemi",desc:"Yerel takımlar ve spor dünyasından gelişmeler.",content:"Bu içerik tasarım amacıyla yerleştirilmiş bir örnektir; güncel haber değildir.",img:"https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=700&q=80",demo:true},
+ {cat:"Yaşam",title:"Kültür, sanat ve yaşam",desc:"Malatya'daki kültür, sanat, eğitim ve sosyal etkinlikler.",content:"Bu içerik tasarım amacıyla yerleştirilmiş bir örnektir; güncel haber değildir.",img:"https://images.unsplash.com/photo-1517457373958-b7rad5b0f4c?auto=format&fit=crop&w=700&q=80",demo:true}
 ];
-let category="Tümü",all=false;
+let articles = [...demoArticles];
+let category = "Tümü", all = false;
+const fallbackImage = "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=700&q=80";
+function escapeHTML(value){return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
 function renderNews(){
  const q=document.getElementById("search").value.toLocaleLowerCase("tr");
- const list=articles.filter(a=>(category==="Tümü"||a.cat===category)&&
- (a.title+" "+a.desc).toLocaleLowerCase("tr").includes(q));
+ const list=articles.filter(a=>(category==="Tümü"||a.cat===category)&&(a.title+" "+a.desc).toLocaleLowerCase("tr").includes(q));
  document.getElementById("listtitle").textContent=category==="Tümü"?"Son Haberler":category+" Haberleri";
- const shown=all?list:list.slice(0,4);
- document.getElementById("cards").innerHTML=shown.map((a,i)=>`
- <article class="card" onclick="openDetail(${articles.indexOf(a)})">
- <img src="${a.img}" alt="${a.cat}" loading="lazy">
- <div class="cardbody"><span class="tag">${a.cat}</span>
- <h3>${a.title}</h3><p class="desc">${a.desc}</p>
- <div class="meta">Örnek içerik · Geliştirme demosu</div></div></article>`).join("");
- if(!shown.length)document.getElementById("cards").innerHTML="<p>Bu aramayla eşleşen haber bulunamadı.</p>";
- document.getElementById("popular").innerHTML=articles.slice(0,4).map(a=>
- `<div class="popular" onclick="openDetail(${articles.indexOf(a)})">${a.title}</div>`).join("");
+ const shown=all?list:list.slice(0,6);
+ document.getElementById("cards").innerHTML=shown.map(a=>`
+ <article class="card" onclick="openDetail('${escapeHTML(String(a.id ?? 'demo-'+demoArticles.indexOf(a)))}')">
+ <img src="${escapeHTML(a.img || fallbackImage)}" alt="${escapeHTML(a.cat)}" loading="lazy">
+ <div class="cardbody"><span class="tag">${escapeHTML(a.cat)}</span><h3>${escapeHTML(a.title)}</h3>
+ <p class="desc">${escapeHTML(a.desc)}</p><div class="meta">${a.demo?"Örnek içerik · Geliştirme demosu":"GÜVEN HABER · Yayınlandı"}</div></div></article>`).join("");
+ if(!shown.length) document.getElementById("cards").innerHTML="<p>Bu aramayla eşleşen haber bulunamadı.</p>";
+ document.getElementById("popular").innerHTML=articles.slice(0,4).map(a=>`<div class="popular" onclick="openDetail('${escapeHTML(String(a.id ?? 'demo-'+demoArticles.indexOf(a)))}')">${escapeHTML(a.title)}</div>`).join("");
 }
-function filterNews(cat,el){
- if(window.event)window.event.preventDefault();
- category=cat;all=false;
- document.querySelectorAll("#nav a").forEach(a=>a.classList.remove("active"));
- if(el)el.classList.add("active");
- document.getElementById("detail").style.display="none";
- renderNews();
+function filterNews(cat,el){category=cat;all=false;document.querySelectorAll("#nav a").forEach(a=>a.classList.remove("active"));if(el)el.classList.add("active");document.getElementById("detail").style.display="none";renderNews();}
+function showAll(){all=true;renderNews();}
+function openDetail(key){
+ const a=articles.find(x=>String(x.id ?? 'demo-'+demoArticles.indexOf(x))===String(key));if(!a)return;
+ document.getElementById("detailbody").innerHTML=`<img src="${escapeHTML(a.img || fallbackImage)}" alt="${escapeHTML(a.cat)}"><span class="tag">${escapeHTML(a.cat)}</span><h2>${escapeHTML(a.title)}</h2><p>${escapeHTML(a.desc)}</p><div>${escapeHTML(a.content || a.desc)}</div>${a.demo?'<p><strong>Not:</strong> Bu içerik bir tasarım örneğidir; gerçek haber değildir.</p>':''}`;
+ document.getElementById("detail").style.display="block";document.getElementById("detail").scrollIntoView({behavior:"smooth"});
 }
-function showAll(){all=true;renderNews()}
-function openDetail(i){
- const a=articles[i];if(!a)return;
- document.getElementById("detailbody").innerHTML=
- `<img src="${a.img}" alt="${a.cat}"><span class="tag">${a.cat}</span>
- <h2>${a.title}</h2><p>${a.desc}</p>
- <p>Bu bölüm, haber metninin, yayın tarihinin ve kaynak bilgilerinin yer alacağı detay sayfası örneğidir.</p>
- <p><strong>Not:</strong> Bu içerik bir tasarım örneğidir; gerçek haber değildir.</p>`;
- document.getElementById("detail").style.display="block";
- document.getElementById("detail").scrollIntoView({behavior:"smooth"});
-}
-function closeDetail(){document.getElementById("detail").style.display="none"}
-
-document.getElementById("newsForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const title = document.getElementById("newsTitle").value.trim();
-  const cat = document.getElementById("newsCategory").value;
-  const desc = document.getElementById("newsDesc").value.trim();
-  const imageUrl = document.getElementById("newsImage").value.trim();
-
-  if (!title || !desc) return;
-
-  const safeImage = /^https?:\/\//i.test(imageUrl)
-    ? imageUrl
-    : "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=700&q=80";
-
-  articles.unshift({
-    cat: cat,
-    title: title,
-    desc: desc,
-    img: safeImage
-  });
-
-  category = "Tümü";
-  all = true;
-  document.getElementById("search").value = "";
-  document.getElementById("detail").style.display = "none";
-
+function closeDetail(){document.getElementById("detail").style.display="none";}
+async function loadPublishedNews(){
+ try{
+  const {data,error}=await supabaseClient.from("news").select("id,title,category,summary,content,image_url,created_at").eq("status","published").order("created_at",{ascending:false});
+  if(error) throw error;
+  const real=(data||[]).map(n=>({id:n.id,cat:n.category,title:n.title,desc:n.summary||"",content:n.content||n.summary||"",img:n.image_url||fallbackImage,demo:false}));
+  articles=[...real,...demoArticles];
   renderNews();
-
-  document.getElementById("adminMessage").textContent =
-    "Haber bu oturumda listeye eklendi. Kalıcı olarak kaydedilmedi.";
-
-  this.reset();
+ }catch(err){console.error("Haberler yüklenemedi:",err);document.getElementById("authMessage").textContent="Haber veritabanına bağlanılamadı. Publishable key ve RLS ayarlarını kontrol et."; }
+}
+function updateAuthUI(user){
+ const isAdmin=!!user && user.id===ADMIN_UID;
+ document.getElementById("authBox").style.display=isAdmin?"none":"block";
+ document.getElementById("newsFormBox").style.display=isAdmin?"block":"none";
+ document.getElementById("admin").style.display="block";
+ if(user && !isAdmin) document.getElementById("authMessage").textContent="Bu hesap haber yönetimi için yetkili değil.";
+ else if(isAdmin) document.getElementById("authMessage").textContent="";
+}
+document.getElementById("loginButton").addEventListener("click",async()=>{
+ const email=document.getElementById("adminEmail").value.trim();
+ const password=document.getElementById("adminPassword").value;
+ const msg=document.getElementById("authMessage");
+ if(!email||!password){msg.textContent="Lütfen e-posta ve şifreni gir.";return;}
+ msg.textContent="Giriş deneniyor…";
+ const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+ if(error){msg.textContent="Giriş başarısız. E-posta/şifreyi kontrol et. ("+error.message+")";return;}
+ updateAuthUI(data.user);
+ document.getElementById("adminPassword").value="";
 });
+document.getElementById("logoutButton").addEventListener("click",async()=>{await supabaseClient.auth.signOut();updateAuthUI(null);document.getElementById("authMessage").textContent="Çıkış yapıldı.";});
+document.getElementById("newsForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const {data:{user}}=await supabaseClient.auth.getUser();
+ if(!user||user.id!==ADMIN_UID){document.getElementById("adminMessage").textContent="Haber yayımlamak için yetkili yönetici hesabıyla giriş yap.";return;}
+ const title=document.getElementById("newsTitle").value.trim();
+ const cat=document.getElementById("newsCategory").value;
+ const summary=document.getElementById("newsDesc").value.trim();
+ const content=document.getElementById("newsContent").value.trim();
+ const imageUrl=document.getElementById("newsImage").value.trim();
+ const slug=(title.toLocaleLowerCase("tr").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,80)||"haber")+"-"+Date.now();
+ const row={title,slug,category:cat,summary,content,image_url:/^https?:\/\//i.test(imageUrl)?imageUrl:null,status:"published"};
+ const button=document.getElementById("publishButton");button.disabled=true;button.textContent="Yayımlanıyor…";
+ const {error}=await supabaseClient.from("news").insert(row);
+ button.disabled=false;button.textContent="Haberi yayımla";
+ if(error){document.getElementById("adminMessage").textContent="Haber kaydedilemedi: "+error.message;return;}
+ document.getElementById("adminMessage").textContent="Haber veritabanına kaydedildi ve yayımlandı.";
+ document.getElementById("newsForm").reset();await loadPublishedNews();category="Tümü";all=true;renderNews();
+});
+supabaseClient.auth.getSession().then(({data})=>updateAuthUI(data.session?.user||null));
+supabaseClient.auth.onAuthStateChange((_event,session)=>updateAuthUI(session?.user||null));
 renderNews();
-</script>
-</body>
-</html>
-
-<script>
-var n = 0;
-document.getElementById("go").addEventListener("click", function () {
-  n = n + 1;
-  document.getElementById("count").textContent = n;
-});
-
+loadPublishedNews();
 </script>
 </body>
 </html>
