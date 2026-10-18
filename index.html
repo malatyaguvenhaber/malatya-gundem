@@ -170,8 +170,36 @@ function renderNews(){
 function filterNews(cat,el){category=cat;all=false;document.querySelectorAll("#nav a").forEach(a=>a.classList.remove("active"));if(el)el.classList.add("active");document.getElementById("detail").style.display="none";renderNews();}
 function showAll(){all=true;renderNews();}
 function openDetail(key){
- const a=articles.find(x=>String(x.id ?? 'demo-'+demoArticles.indexOf(x))===String(key));if(!a)return;
- document.getElementById("detailbody").innerHTML=`${(a.images && a.images.length ? a.images : [a.img || fallbackImage]).map(src=>`<img src="${escapeHTML(src)}" alt="${escapeHTML(a.cat)}" style="width:100%;max-height:350px;object-fit:cover;margin-bottom:10px;">`).join("")}<span class="tag">${escapeHTML(a.cat)}</span><h2>${escapeHTML(a.title)}</h2><p>${escapeHTML(a.desc)}</p><div>${escapeHTML(a.content || a.desc)}</div>${a.demo?'<p><strong>Not:</strong> Bu içerik bir tasarım örneğidir; gerçek haber değildir.</p>':''}`;
+  const a=articles.find(
+    x=>String(x.id ?? 'demo-'+demoArticles.indexOf(x))===String(key)
+  );
+  if(!a)return;
+
+  const images=(a.images && a.images.length)
+    ? a.images
+    : [a.img || fallbackImage];
+
+  document.getElementById("detailbody").innerHTML=`
+    ${images.map((src,i)=>`
+      <img
+        src="${escapeHTML(src)}"
+        alt="${escapeHTML(a.title)} - Fotoğraf ${i+1}"
+        style="width:100%;height:auto;max-height:500px;object-fit:contain;display:block;margin:0 0 16px;border-radius:6px"
+        loading="lazy"
+      >
+    `).join("")}
+    <span class="tag">${escapeHTML(a.cat)}</span>
+    <h2>${escapeHTML(a.title)}</h2>
+    <p>${escapeHTML(a.desc)}</p>
+    <div>${escapeHTML(a.content || a.desc)}</div>
+    ${a.demo?'<p><strong>Not:</strong> Bu içerik bir tasarım örneğidir; gerçek haber değildir.</p>':''}
+  `;
+
+  document.getElementById("detail").style.display="block";
+  document.getElementById("detail").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
 }
 function closeDetail(){document.getElementById("detail").style.display="none";}
 
