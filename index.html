@@ -226,27 +226,68 @@ document.getElementById("loginButton").addEventListener("click",async()=>{
  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
  if(error){msg.textContent="Giriş başarısız. E-posta/şifreyi kontrol et. ("+error.message+")";return;}
  updateAuthUI(data.user);
- document.getElementById("adminPassword").value="";
+ document.getElementById("newsForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const msg=document.getElementById("adminMessage");
+  const button=document.getElementById("publishButton");
+  const {data:{user}}=await supabaseClient.auth.getUser();
+  if(!user||user.id!==ADMIN_UID){msg.textContent="Yetkili yönetici hesabıyla giriş yap.";return;}
+
+  const files=Array.from(document.getElementById("newsPhotos").files);
+  const maxSize=50*1024*1024;
+  const allowed=["image/jpeg","image/png","image/webp"];
+
+  if(files.length>5){msg.textContent="En fazla 5 fotoğraf seçebilirsin.";return;}
+  for(const file of files){
+    if(!allowed.includes(file.type)){msg.textContent="Yalnızca JPG, PNG veya WEBP fotoğrafları yükleyebilirsin.";return;}
+    if(file.size>maxSize){msg.textContent="Her fotoğraf en fazla 50 MB olabilir.";return;}
+  }
+
+  const title=document.getElementById("newsTitle").value.trim();
+  const cat=document.getElementById("newsCategory").value;
+  const summary=document.getElementById("newsDesc").value.trim();
+  const content=document.getElementById("newsContent").value.trim();
+  const imageUrl=document.getElementById("newsImage").value.trim();
+  const slug=(title.toLocaleLowerCase("tr").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,80)||"haber")+"-"+Date.now();
+  const row={title,slug,category:cat,summary,content,image_url:/^https?:\/\//i.test(imageUrl)?imageUrl:null,status:"published"};
+
+  button.disabled=true;
+  button.textContent="Yayımlanıyor…";
+  msg.textContent="Haber kaydediliyor…";
+
+  try{
+    const {data:news,error:newsError}=await supabaseClient.from("news").insert(row).select("id").single();
+    if(newsError) throw newsError;
+
+    const imageRows=[];
+    for(let i=0;i<files.length;i++){
+      const file=files[i];
+      const path=news.id+"/"+Date.now()+"-"+i+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+      const {error:uploadError}=await supabaseClient.storage.from("haber-fotograflari").upload(path,file);
+      if(uploadError) throw uploadError;
+      const {data:urlData}=supabaseClient.storage.from("haber-fotograflari").getPublicUrl(path);
+      imageRows.push({news_id:news.id,image_url:urlData.publicUrl,sort_order:i});
+    }
+
+    if(imageRows.length){
+      const {error:imageError}=await supabaseClient.from("news_images").insert(imageRows);
+      if(imageError) throw imageError;
+    }
+
+    msg.textContent="Haber yayımlandı. Fotoğraf sayısı: "+files.length;
+    document.getElementById("newsForm").reset();
+    await loadPublishedNews();
+    category="Tümü";
+    all=true;
+    renderNews();
+  }catch(err){
+    msg.textContent="İşlem tamamlanamadı: "+err.message+" Haber kaydedilmiş olabilir; kontrol et.";
+  }finally{
+    button.disabled=false;
+    button.textContent="Haberi yayımla";
+  }
 });
-document.getElementById("logoutButton").addEventListener("click",async()=>{await supabaseClient.auth.signOut();updateAuthUI(null);document.getElementById("authMessage").textContent="Çıkış yapıldı.";});
-document.getElementById("newsForm").addEventListener("submit",async e=>{
- e.preventDefault();
- const {data:{user}}=await supabaseClient.auth.getUser();
- if(!user||user.id!==ADMIN_UID){document.getElementById("adminMessage").textContent="Haber yayımlamak için yetkili yönetici hesabıyla giriş yap.";return;}
- const title=document.getElementById("newsTitle").value.trim();
- const cat=document.getElementById("newsCategory").value;
- const summary=document.getElementById("newsDesc").value.trim();
- const content=document.getElementById("newsContent").value.trim();
- const imageUrl=document.getElementById("newsImage").value.trim();
- const slug=(title.toLocaleLowerCase("tr").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,80)||"haber")+"-"+Date.now();
- const row={title,slug,category:cat,summary,content,image_url:/^https?:\/\//i.test(imageUrl)?imageUrl:null,status:"published"};
- const button=document.getElementById("publishButton");button.disabled=true;button.textContent="Yayımlanıyor…";
- const {error}=await supabaseClient.from("news").insert(row);
- button.disabled=false;button.textContent="Haberi yayımla";
- if(error){document.getElementById("adminMessage").textContent="Haber kaydedilemedi: "+error.message;return;}
- document.getElementById("adminMessage").textContent="Haber veritabanına kaydedildi ve yayımlandı.";
- document.getElementById("newsForm").reset();await loadPublishedNews();category="Tümü";all=true;renderNews();
-});
+ 
 supabaseClient.auth.getSession().then(({data})=>{
  updateAuthUI(data.session?.user||null);
  if(data.session && (window.location.hash.includes("type=recovery") || new URLSearchParams(window.location.search).get("type")==="recovery")) showPasswordRecovery();
