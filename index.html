@@ -120,6 +120,20 @@ footer a{margin-right:14px}
 <label for="newsCategory">Kategori</label><select class="search" id="newsCategory"><option>Malatya</option><option>Siyaset</option><option>Asayiş</option><option>Ekonomi</option><option>Spor</option><option>Yaşam</option></select>
 <label for="newsDesc">Haber özeti</label><textarea class="search" id="newsDesc" placeholder="Kısa haber özeti" rows="3" required></textarea>
 <label for="newsContent">Haber metni</label><textarea class="search" id="newsContent" placeholder="Haberin tam metni" rows="7" required></textarea>
+ <div style="margin:10px 0 16px;">
+  <button
+    type="button"
+    id="insertPhotoButton"
+    class="more"
+    style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#b51225;color:white;border:0;border-radius:8px;padding:14px;font-size:16px;font-weight:bold;cursor:pointer;"
+  >
+    <span style="font-size:22px;">＋</span>
+    Fotoğraf ekle
+  </button>
+  <p id="photoInsertMessage" class="statusmsg">
+    İmleci fotoğrafın geleceği yere getir ve butona bas.
+  </p>
+ </div>
 <label for="newsImage">Görsel bağlantısı (URL, isteğe bağlı)</label><input class="search" id="newsImage" type="url" placeholder="https://...">
  <label for="newsPhotos">Fotoğraf seç (En fazla 5 fotoğraf)</label>
 <input class="search" id="newsPhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
@@ -326,6 +340,69 @@ document.getElementById("loginButton").addEventListener("click",async()=>{
  if(error){msg.textContent="Giriş başarısız. E-posta/şifreyi kontrol et. ("+error.message+")";return;}
  updateAuthUI(data.user);
  });
+ // Metin içine fotoğraf ekleme butonu
+document.getElementById("insertPhotoButton").addEventListener("click", () => {
+  const input = document.getElementById("newsPhotos");
+  const editor = document.getElementById("newsContent");
+  const message = document.getElementById("photoInsertMessage");
+
+  if (!input || !editor || !message) return;
+
+  const files = Array.from(input.files || []);
+
+  if (files.length >= 5) {
+    message.textContent = "En fazla 5 fotoğraf seçebilirsin.";
+    return;
+  }
+
+  const picker = document.createElement("input");
+  picker.type = "file";
+  picker.accept = "image/jpeg,image/png,image/webp";
+
+  picker.onchange = () => {
+    const file = picker.files && picker.files[0];
+    if (!file) return;
+
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      message.textContent = "Yalnızca JPG, PNG veya WEBP seçebilirsin.";
+      return;
+    }
+
+    if (file.size > 50 * 1024 * 1024) {
+      message.textContent = "Fotoğraf en fazla 50 MB olabilir.";
+      return;
+    }
+
+    const transfer = new DataTransfer();
+
+    Array.from(input.files || []).forEach(existing => {
+      transfer.items.add(existing);
+    });
+
+    transfer.items.add(file);
+    input.files = transfer.files;
+
+    const photoNumber = input.files.length;
+    const marker = "[FOTO" + photoNumber + "]";
+
+    const start = editor.selectionStart;
+    const end = editor.selectionEnd;
+    const before = editor.value.slice(0, start);
+    const after = editor.value.slice(end);
+
+    editor.value = before + "\n" + marker + "\n" + after;
+    editor.focus();
+
+    const cursor = before.length + marker.length + 2;
+    editor.setSelectionRange(cursor, cursor);
+
+    message.textContent =
+      "Fotoğraf " + photoNumber +
+      " metne eklendi. Fotoğrafı görmek istediğin yerdeki işareti koru.";
+  };
+
+  picker.click();
+});
  document.getElementById("newsForm").addEventListener("submit",async e=>{
   e.preventDefault();
   const msg=document.getElementById("adminMessage");
