@@ -161,7 +161,7 @@ function renderNews(){
  const shown=all?list:list.slice(0,6);
  document.getElementById("cards").innerHTML=shown.map(a=>`
  <article class="card" onclick="openDetail('${escapeHTML(String(a.id ?? 'demo-'+demoArticles.indexOf(a)))}')">
- <img src="${escapeHTML(a.img || fallbackImage)}" alt="${escapeHTML(a.cat)}" loading="lazy">
+<img src="${escapeHTML((a.images && a.images[0]) || a.img || fallbackImage)}"alt="${escapeHTML(a.cat)}" loading="lazy">
  <div class="cardbody"><span class="tag">${escapeHTML(a.cat)}</span><h3>${escapeHTML(a.title)}</h3>
  <p class="desc">${escapeHTML(a.desc)}</p><div class="meta">${a.demo?"Örnek içerik · Geliştirme demosu":"GÜVEN HABER · Yayınlandı"}</div></div></article>`).join("");
  if(!shown.length) document.getElementById("cards").innerHTML="<p>Bu aramayla eşleşen haber bulunamadı.</p>";
@@ -171,19 +171,62 @@ function filterNews(cat,el){category=cat;all=false;document.querySelectorAll("#n
 function showAll(){all=true;renderNews();}
 function openDetail(key){
  const a=articles.find(x=>String(x.id ?? 'demo-'+demoArticles.indexOf(x))===String(key));if(!a)return;
- document.getElementById("detailbody").innerHTML=`<img src="${escapeHTML(a.img || fallbackImage)}" alt="${escapeHTML(a.cat)}"><span class="tag">${escapeHTML(a.cat)}</span><h2>${escapeHTML(a.title)}</h2><p>${escapeHTML(a.desc)}</p><div>${escapeHTML(a.content || a.desc)}</div>${a.demo?'<p><strong>Not:</strong> Bu içerik bir tasarım örneğidir; gerçek haber değildir.</p>':''}`;
- document.getElementById("detail").style.display="block";document.getElementById("detail").scrollIntoView({behavior:"smooth"});
+ document.getElementById("detailbody").innerHTML=`${(a.images && a.images.length ? a.images : [a.img || fallbackImage]).map(src=>`<img src="${escapeHTML(src)}" alt="${escapeHTML(a.cat)}" style="width:100%;max-height:350px;object-fit:cover;margin-bottom:10px;">`).join("")}<span class="tag">${escapeHTML(a.cat)}</span><h2>${escapeHTML(a.title)}</h2><p>${escapeHTML(a.desc)}</p><div>${escapeHTML(a.content || a.desc)}</div>${a.demo?'<p><strong>Not:</strong> Bu içerik bir tasarım örneğidir; gerçek haber değildir.</p>':''}`;
 }
 function closeDetail(){document.getElementById("detail").style.display="none";}
+
 async function loadPublishedNews(){
  try{
-  const {data,error}=await supabaseClient.from("news").select("id,title,category,summary,content,image_url,created_at").eq("status","published").order("created_at",{ascending:false});
+  const {data,error}=await supabaseClient
+   .from("news")
+   .select("id,title,category,summary,content,image_url,created_at")
+   .eq("status","published")
+   .order("created_at",{ascending:false});
   if(error) throw error;
-  const real=(data||[]).map(n=>({id:n.id,cat:n.category,title:n.title,desc:n.summary||"",content:n.content||n.summary||"",img:n.image_url||fallbackImage,demo:false}));
+
+  const newsIds=(data||[]).map(n=>n.id);
+  let photos=[];
+
+  if(newsIds.length){
+   const {data:photoData,error:photoError}=await supabaseClient
+    .from("news_images")
+    .select("news_id,image_url,sort_order")
+    .in("news_id",newsIds)
+    .order("sort_order",{ascending:true});
+
+   if(photoError) throw photoError;
+   photos=photoData||[];
+  }
+
+  const real=(data||[]).map(n=>{
+   const images=photos
+    .filter(p=>String(p.news_id)===String(n.id))
+    .map(p=>p.image_url)
+    .filter(Boolean);
+
+   const mainImage=images[0]||n.image_url||fallbackImage;
+
+   return {
+    id:n.id,
+    cat:n.category,
+    title:n.title,
+    desc:n.summary||"",
+    content:n.content||n.summary||"",
+    img:mainImage,
+    images:images.length?images:[mainImage],
+    demo:false
+   };
+  });
+
   articles=[...real,...demoArticles];
   renderNews();
- }catch(err){console.error("Haberler yüklenemedi:",err);document.getElementById("authMessage").textContent="Haber veritabanına bağlanılamadı. Publishable key ve RLS ayarlarını kontrol et."; }
+ }catch(err){
+  console.error("Haberler yüklenemedi:",err);
+  document.getElementById("authMessage").textContent=
+   "Haberler yüklenemedi: "+err.message;
+ }
 }
+
 function showPasswordRecovery(){
  document.getElementById("authBox").style.display="none";
  document.getElementById("newsFormBox").style.display="none";
