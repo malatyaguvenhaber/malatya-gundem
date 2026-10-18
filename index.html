@@ -226,6 +226,7 @@ document.getElementById("loginButton").addEventListener("click",async()=>{
  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
  if(error){msg.textContent="Giriş başarısız. E-posta/şifreyi kontrol et. ("+error.message+")";return;}
  updateAuthUI(data.user);
+ });
  document.getElementById("newsForm").addEventListener("submit",async e=>{
   e.preventDefault();
   const msg=document.getElementById("adminMessage");
