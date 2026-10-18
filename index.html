@@ -492,9 +492,7 @@ async function loadRssNews() {
     cat: item.category || "Gündem",
     title: item.headline,
     desc: (item.source_name || "Haber kaynağı") +
-      (item.published_at
-        ? " · " + new Date(item.published_at).toLocaleString("tr-TR")
-        : ""),
+      desc: (item.source_name || "Haber kaynağı"),
     content: "",
     img: fallbackImage,
     originalUrl: item.original_url,
