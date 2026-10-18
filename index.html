@@ -474,7 +474,44 @@ supabaseClient.auth.onAuthStateChange((event,session)=>{
  else updateAuthUI(session?.user||null);
 });
 renderNews();
-loadPublishedNews();
+ 
+async function loadRssNews() {
+  const { data, error } = await supabaseClient
+    .from("news_feed")
+    .select("id, headline, source_name, original_url, published_at, category")
+    .order("published_at", { ascending: false })
+    .limit(100);
+
+  if (error) {
+    console.error("RSS haberleri yüklenemedi:", error);
+    return;
+  }
+
+  const rssArticles = (data || []).map(item => ({
+    id: "rss-" + item.id,
+    cat: item.category || "Gündem",
+    title: item.headline,
+    desc: (item.source_name || "Haber kaynağı") +
+      (item.published_at
+        ? " · " + new Date(item.published_at).toLocaleString("tr-TR")
+        : ""),
+    content: "",
+    img: fallbackImage,
+    originalUrl: item.original_url,
+    sourceName: item.source_name || "Haber kaynağı",
+    demo: false
+  }));
+
+  articles = [
+    ...articles.filter(item => !String(item.id || "").startsWith("rss-")),
+    ...rssArticles
+  ];
+
+  renderNews();
+}
+
+
+loadPublishedNews().then(() => loadRssNews());
 </script>
 </body>
 </html>
