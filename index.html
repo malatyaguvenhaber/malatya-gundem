@@ -194,7 +194,7 @@ function openDetail(key){
     ? a.images
     : [a.img || fallbackImage];
 
-  const content=String(a.content || a.desc || "");
+  const content=String(a.content || "");
   const hasPhotoMarkers=/\[FOTO[1-5]\]/i.test(content);
 
   const contentHtml=content.split(/(\[FOTO[1-5]\])/gi).map(part=>{
