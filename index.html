@@ -184,62 +184,71 @@ function renderNews(){
 function filterNews(cat,el){category=cat;all=false;document.querySelectorAll("#nav a").forEach(a=>a.classList.remove("active"));if(el)el.classList.add("active");document.getElementById("detail").style.display="none";renderNews();}
 function showAll(){all=true;renderNews();}
 
-function openDetail(key){
-  const a=articles.find(
-    x=>String(x.id ?? 'demo-'+demoArticles.indexOf(x))===String(key)
+ 
+function openDetail(key) {
+  const a = articles.find(
+    x => String(x.id ?? 'demo-' + demoArticles.indexOf(x)) === String(key)
   );
-  if(!a)return;
+  if (!a) return;
 
-  const images=(a.images && a.images.length)
+  const images = (a.images && a.images.length)
     ? a.images
     : [a.img || fallbackImage];
 
-  const content=String(a.content || "");
-  const hasPhotoMarkers=/\[FOTO[1-5]\]/i.test(content);
+  const content = String(a.content || "");
+  const hasPhotoMarkers = /\[FOTO[1-5]\]/i.test(content);
 
-  const contentHtml=content.split(/(\[FOTO[1-5]\])/gi).map(part=>{
-    const match=part.match(/^\[FOTO([1-5])\]$/i);
+  const contentHtml = content.split(/\[FOTO[1-5]\]/i).map(part => {
+    const match = part.match(/\[FOTO([1-5])\]/i);
 
-    if(match){
-      const src=images[Number(match[1])-1];
-      if(!src)return "";
+    if (match) {
+      const src = images[Number(match[1]) - 1];
+      if (!src) return "";
 
       return '<figure style="margin:22px 0;">'
-        +'<img src="'+escapeHTML(src)+'" '
-        +'alt="'+escapeHTML(a.title)+' - Fotoğraf '+match[1]+'" '
-        +'style="width:100%;height:auto;max-height:600px;object-fit:contain;display:block;border-radius:6px;" loading="lazy">'
-        +'<figcaption style="font-size:13px;color:#777;margin-top:6px;">Fotoğraf '+match[1]+'</figcaption>'
-        +'</figure>';
+        + '<img src="' + escapeHTML(src) + '" alt="' + escapeHTML(a.title) + '" style="width:100%;height:auto;max-height:600px;object-fit:contain;display:block;border-radius:6px;">'
+        + '<figcaption style="font-size:13px;color:#777;margin-top:6px;">Fotoğraf ' + match[1] + '</figcaption>'
+        + '</figure>';
     }
 
-    if(!part.trim())return "";
+    if (!part.trim()) return "";
+
     return '<p style="line-height:1.8;margin:14px 0;">'
-      +escapeHTML(part).replace(/\n/g,"<br>")
-      +'</p>';
+      + escapeHTML(part).replace(/\n/g, "<br>")
+      + '</p>';
   }).join("");
 
-  const galleryHtml=!hasPhotoMarkers
-    ? images.map((src,i)=>
+  const galleryHtml = !hasPhotoMarkers
+    ? images.map((src, i) =>
         '<figure style="margin:18px 0;">'
-        +'<img src="'+escapeHTML(src)+'" '
-        +'alt="'+escapeHTML(a.title)+' - Fotoğraf '+(i+1)+'" '
-        +'style="width:100%;height:auto;max-height:600px;object-fit:contain;display:block;border-radius:6px;" loading="lazy">'
-        +'</figure>'
+        + '<img src="' + escapeHTML(src) + '" alt="' + escapeHTML(a.title) + '" style="width:100%;height:auto;max-height:600px;object-fit:contain;display:block;border-radius:6px;">'
+        + '</figure>'
       ).join("")
     : "";
 
-  document.getElementById("detailbody").innerHTML=
-    galleryHtml
-    +'<span class="tag">'+escapeHTML(a.cat)+'</span>'
-    +'<h2>'+escapeHTML(a.title)+'</h2>'
-    +'<p>'+escapeHTML(a.desc)+'</p>'
-    +contentHtml
-    +(a.demo?'<p><strong>Not:</strong> Bu içerik bir tasarım örneğidir; gerçek haber değildir.</p>':'');
+  const sourceHtml = a.originalUrl && /^https?:\/\//i.test(a.originalUrl)
+    ? '<p style="margin:16px 0;"><strong>Kaynak:</strong> '
+      + escapeHTML(a.sourceName || a.desc || "Haber kaynağı")
+      + '</p><a href="' + escapeHTML(a.originalUrl)
+      + '" target="_blank" rel="noopener noreferrer" class="more">Orijinal haberi kaynağında oku ↗</a>'
+    : '<p><strong>Kaynak:</strong> ' + escapeHTML(a.sourceName || "GÜVEN HABER") + '</p>';
 
-  document.getElementById("detail").style.display="block";
+  document.getElementById("detailbody").innerHTML =
+    galleryHtml
+    + '<span class="tag">' + escapeHTML(a.cat) + '</span>'
+    + '<h2>' + escapeHTML(a.title) + '</h2>'
+    + sourceHtml
+    + (content.trim()
+        ? contentHtml
+        : '<p>Haberin ayrıntılı metni henüz alınamadı. Orijinal haber bağlantısından okuyabilirsiniz.</p>')
+    + (a.demo
+        ? '<p><strong>Not:</strong> Bu içerik bir tasarım örneğidir; gerçek haber değildir.</p>'
+        : '');
+
+  document.getElementById("detail").style.display = "block";
   document.getElementById("detail").scrollIntoView({
-    behavior:"smooth",
-    block:"start"
+    behavior: "smooth",
+    block: "start"
   });
 }
 
