@@ -478,7 +478,7 @@ renderNews();
 async function loadRssNews() {
   const { data, error } = await supabaseClient
     .from("news_feed")
-    .select("id, headline, source_name, original_url, published_at, category")
+    .select("id, headline, source_name, original_url, published_at, category, image_url, content")
     .order("published_at", { ascending: false })
     .limit(100);
 
@@ -492,8 +492,8 @@ async function loadRssNews() {
     cat: item.category || "Gündem",
     title: item.headline,
     desc: (item.source_name || "Haber kaynağı"),
-    content: "",
-    img: fallbackImage,
+    content: item.content || "",
+    img: item.image_url || fallbackImage,
     originalUrl: item.original_url,
     sourceName: item.source_name || "Haber kaynağı",
     demo: false
