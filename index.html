@@ -505,10 +505,27 @@ async function loadRssNews() {
   ];
 
   renderNews();
+updateHero();
 }
 
 
 loadPublishedNews().then(() => loadRssNews());
+ function updateHero() {
+  const latest = articles.find(a => a.demo === false && a.title);
+  if (!latest) return;
+
+  const image = document.querySelector(".heroimg");
+  const title = document.querySelector(".herotext h1");
+  const desc = document.querySelector(".herotext p");
+  const tag = document.querySelector(".herotext .tag");
+  const meta = document.querySelector(".herotext .meta");
+
+  if (image && latest.img) image.src = latest.img;
+  if (title) title.textContent = latest.title;
+  if (desc) desc.textContent = latest.content || latest.desc || "";
+  if (tag) tag.textContent = "SON DAKİKA";
+  if (meta) meta.textContent = latest.sourceName || "GÜVEN HABER";
+ }
 </script>
 </body>
 </html>
