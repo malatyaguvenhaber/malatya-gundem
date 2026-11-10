@@ -511,7 +511,7 @@ updateHero();
 
 loadPublishedNews().then(() => loadRssNews());
  function updateHero() {
-  const latest = articles.find(a => a.demo === false && a.title);
+  const latest = articles.find(a => String(a.id || "").startsWith("rss-") && a.title);
   if (!latest) return;
 
   const image = document.querySelector(".heroimg");
