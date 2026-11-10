@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1f2950">
+<title>GÜVEN HABER | Son Haber</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f4f6;color:#222;font-family:Arial,sans-serif}
+header{background:#1f2950;color:white;padding:24px 16px;text-align:center}
+header h1{margin:0;font-size:28px;letter-spacing:2px}
+header p{margin:7px 0 0;font-size:12px;letter-spacing:2px}
+main{max-width:850px;margin:25px auto;padding:0 15px}
+article{background:white;border-radius:10px;overflow:hidden;box-shadow:0 3px 16px #00000012}
+#photo{width:100%;max-height:520px;object-fit:cover;display:none}
+.content{padding:24px}
+.category{color:#b51f2a;font-size:13px;font-weight:bold}
+h2{font-size:30px;line-height:1.3;margin:12px 0}
+.meta{color:#777;font-size:13px;margin-bottom:22px}
+#text{font-size:17px;line-height:1.85;white-space:pre-wrap}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
+a,button{padding:12px 17px;border:0;border-radius:6px;background:#1f2950;color:white;text-decoration:none;font-size:14px;cursor:pointer}
+footer{text-align:center;padding:25px;color:#777;font-size:12px}
+#status{text-align:center;padding:35px}
+@media(max-width:600px){h2{font-size:23px}.content{padding:18px}#text{font-size:16px}}
+</style>
+</head>
+<body>
+<header>
+<h1>GÜVEN HABER</h1>
+<p>MALATYA'NIN GÜVENİLİR HABER ADRESİ</p>
+</header>
+
+<main>
+<article>
+<div id="status">En güncel haber yükleniyor...</div>
+<img id="photo" alt="Haber fotoğrafı">
+<div class="content" id="articleContent" style="display:none">
+<div class="category" id="category"></div>
+<h2 id="title"></h2>
+<div class="meta" id="date"></div>
+<div id="text"></div>
+<div class="actions">
+<button onclick="shareNews()">Haberi paylaş</button>
+<a href="https://malatyaguvenhaber.github.io/malatya-gundem/">GÜVEN HABER ana sayfa</a>
+</div>
+</div>
+</article>
+</main>
+
+<footer>© GÜVEN HABER · Tüm hakları saklıdır.</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const db = window.supabase.createClient(
+ "https://beaymvlceeqxcgyawikp.supabase.co",
+ "sb_publishable_fF1sqSZiPYNYJuNS_WKVmA_ApHXFrsD"
+);
+
+let currentTitle = "GÜVEN HABER - Son Haber";
+
+async function loadLatestNews(){
+ const status = document.getElementById("status");
+
+ try{
+  const {data:news,error} = await db
+   .from("news")
+   .select("id,title,category,summary,content,image_url,created_at")
+   .eq("status","published")
+   .order("created_at",{ascending:false})
+   .limit(1)
+   .maybeSingle();
+
+  if(error) throw error;
+  if(!news){
+   status.textContent="Henüz yayımlanmış haber bulunamadı.";
+   return;
+  }
+
+  const {data:photos,error:photoError} = await db
+   .from("news_images")
+   .select("image_url,sort_order")
+   .eq("news_id",news.id)
+   .order("sort_order",{ascending:true});
+
+  if(photoError) console.warn(photoError);
+
+  const image = photos?.[0]?.image_url || news.image_url;
+
+  if(image){
+   const photo=document.getElementById("photo");
+   photo.src=image;
+   photo.style.display="block";
+  }
+
+  currentTitle=news.title;
+  document.getElementById("title").textContent=news.title;
+  document.getElementById("category").textContent=news.category || "HABER";
+  document.getElementById("text").textContent=news.content || news.summary || "Haber metni bulunamadı.";
+  document.getElementById("date").textContent=
+   new Date(news.created_at).toLocaleString("tr-TR");
+
+  document.getElementById("articleContent").style.display="block";
+  status.style.display="none";
+  document.title=news.title+" | GÜVEN HABER";
+
+ }catch(error){
+  console.error(error);
+  status.textContent="Haber yüklenemedi. Lütfen daha sonra tekrar deneyin.";
+ }
+}
+
+async function shareNews(){
+ const url=window.location.href;
+ if(navigator.share){
+  try{
+   await navigator.share({title:currentTitle,url:url});
+  }catch(e){}
+ }else{
+  try{
+   await navigator.clipboard.writeText(url);
+   alert("Haber bağlantısı kopyalandı.");
+  }catch(e){
+   prompt("Haber bağlantısını kopyala:",url);
+  }
+ }
+}
+
+loadLatestNews();
+</script>
+</body>
+</html>
